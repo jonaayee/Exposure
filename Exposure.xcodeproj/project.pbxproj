@@ -7,19 +7,21 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		3F8805F02CB70E7B0032B620 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F8805EC2CB70E7B0032B620 /* ContentView.swift */; };
 		3F8805F12CB70E7B0032B620 /* ExposureApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F8805EE2CB70E7B0032B620 /* ExposureApp.swift */; };
 		3F8805F22CB70E7B0032B620 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3F8805E92CB70E7B0032B620 /* Preview Assets.xcassets */; };
 		3F8805F32CB70E7B0032B620 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3F8805EB2CB70E7B0032B620 /* Assets.xcassets */; };
+		3F8805F92CB7116B0032B620 /* iOSViewHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F8805F82CB7116B0032B620 /* iOSViewHandler.swift */; };
+		3F8805FD2CB74C9E0032B620 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F8805FC2CB74C9E0032B620 /* HomeView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		3F8805D72CB70E730032B620 /* Exposure.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Exposure.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3F8805E92CB70E7B0032B620 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		3F8805EB2CB70E7B0032B620 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		3F8805EC2CB70E7B0032B620 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		3F8805ED2CB70E7B0032B620 /* Exposure.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Exposure.entitlements; sourceTree = "<group>"; };
 		3F8805EE2CB70E7B0032B620 /* ExposureApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExposureApp.swift; sourceTree = "<group>"; };
+		3F8805F82CB7116B0032B620 /* iOSViewHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iOSViewHandler.swift; sourceTree = "<group>"; };
+		3F8805FC2CB74C9E0032B620 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -61,12 +63,45 @@
 			isa = PBXGroup;
 			children = (
 				3F8805EE2CB70E7B0032B620 /* ExposureApp.swift */,
-				3F8805EC2CB70E7B0032B620 /* ContentView.swift */,
+				3F8805F72CB710F70032B620 /* Handlers */,
+				3F8805FB2CB74A7A0032B620 /* Views */,
+				3FCD56DE2CB7872400328D8D /* ViewModels */,
 				3F8805EA2CB70E7B0032B620 /* Preview Content */,
 				3F8805ED2CB70E7B0032B620 /* Exposure.entitlements */,
 				3F8805EB2CB70E7B0032B620 /* Assets.xcassets */,
 			);
 			path = Exposure;
+			sourceTree = "<group>";
+		};
+		3F8805F62CB710F70032B620 /* ViewHandler */ = {
+			isa = PBXGroup;
+			children = (
+				3F8805F82CB7116B0032B620 /* iOSViewHandler.swift */,
+			);
+			path = ViewHandler;
+			sourceTree = "<group>";
+		};
+		3F8805F72CB710F70032B620 /* Handlers */ = {
+			isa = PBXGroup;
+			children = (
+				3F8805F62CB710F70032B620 /* ViewHandler */,
+			);
+			path = Handlers;
+			sourceTree = "<group>";
+		};
+		3F8805FB2CB74A7A0032B620 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				3F8805FC2CB74C9E0032B620 /* HomeView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		3FCD56DE2CB7872400328D8D /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = ViewModels;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -142,8 +177,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3F8805F02CB70E7B0032B620 /* ContentView.swift in Sources */,
+				3F8805FD2CB74C9E0032B620 /* HomeView.swift in Sources */,
 				3F8805F12CB70E7B0032B620 /* ExposureApp.swift in Sources */,
+				3F8805F92CB7116B0032B620 /* iOSViewHandler.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -277,6 +313,8 @@
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = Exposure;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.photography";
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphoneos*]" = YES;
@@ -285,8 +323,8 @@
 				"INFOPLIST_KEY_UILaunchScreen_Generation[sdk=iphonesimulator*]" = YES;
 				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphoneos*]" = UIStatusBarStyleDefault;
 				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphonesimulator*]" = UIStatusBarStyleDefault;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
@@ -295,10 +333,11 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.jonaayee.Exposure;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = auto;
-				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx xros xrsimulator";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2,7";
+				TARGETED_DEVICE_FAMILY = 1;
 				XROS_DEPLOYMENT_TARGET = 2.0;
 			};
 			name = Debug;
@@ -316,6 +355,8 @@
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = Exposure;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.photography";
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphoneos*]" = YES;
@@ -324,8 +365,8 @@
 				"INFOPLIST_KEY_UILaunchScreen_Generation[sdk=iphonesimulator*]" = YES;
 				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphoneos*]" = UIStatusBarStyleDefault;
 				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphonesimulator*]" = UIStatusBarStyleDefault;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
@@ -334,10 +375,11 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.jonaayee.Exposure;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = auto;
-				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx xros xrsimulator";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2,7";
+				TARGETED_DEVICE_FAMILY = 1;
 				XROS_DEPLOYMENT_TARGET = 2.0;
 			};
 			name = Release;
