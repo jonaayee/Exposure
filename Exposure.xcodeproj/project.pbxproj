@@ -3,26 +3,35 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 77;
+	objectVersion = 63;
 	objects = {
+
+/* Begin PBXBuildFile section */
+		3F0E02252CBECDF100D2A837 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3F0E021F2CBECDF100D2A837 /* Preview Assets.xcassets */; };
+		3F0E02262CBECDF100D2A837 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3F0E02212CBECDF100D2A837 /* Assets.xcassets */; };
+		3F0E02282CBECDF100D2A837 /* ExposureApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F0E02232CBECDF100D2A837 /* ExposureApp.swift */; };
+		3F745F302CBF1B0300A737E6 /* iOSContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F745F2F2CBF1B0300A737E6 /* iOSContentView.swift */; };
+		3FCC712C2CBF6C8000859810 /* ExposureEngine in Frameworks */ = {isa = PBXBuildFile; productRef = 3FCC712B2CBF6C8000859810 /* ExposureEngine */; };
+		3FCC712E2CBF6C8000859810 /* ExposureUI in Frameworks */ = {isa = PBXBuildFile; productRef = 3FCC712D2CBF6C8000859810 /* ExposureUI */; };
+		3FCC71312CBF6CF800859810 /* iOSSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FCC71302CBF6CF800859810 /* iOSSettingsView.swift */; };
+/* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		3F0E020E2CBECDE900D2A837 /* Exposure.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Exposure.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		3F0E021F2CBECDF100D2A837 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		3F0E02212CBECDF100D2A837 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		3F0E02232CBECDF100D2A837 /* ExposureApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExposureApp.swift; sourceTree = "<group>"; };
+		3F745F2F2CBF1B0300A737E6 /* iOSContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iOSContentView.swift; sourceTree = "<group>"; };
+		3FCC71302CBF6CF800859810 /* iOSSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iOSSettingsView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
-
-/* Begin PBXFileSystemSynchronizedRootGroup section */
-		3F0E02102CBECDE900D2A837 /* Exposure */ = {
-			isa = PBXFileSystemSynchronizedRootGroup;
-			path = Exposure;
-			sourceTree = "<group>";
-		};
-/* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
 		3F0E020B2CBECDE900D2A837 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3FCC712C2CBF6C8000859810 /* ExposureEngine in Frameworks */,
+				3FCC712E2CBF6C8000859810 /* ExposureUI in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -32,7 +41,7 @@
 		3F0E02052CBECDE900D2A837 = {
 			isa = PBXGroup;
 			children = (
-				3F0E02102CBECDE900D2A837 /* Exposure */,
+				3F0E02242CBECDF100D2A837 /* Exposure */,
 				3F0E020F2CBECDE900D2A837 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -43,6 +52,50 @@
 				3F0E020E2CBECDE900D2A837 /* Exposure.app */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		3F0E02202CBECDF100D2A837 /* Preview Content */ = {
+			isa = PBXGroup;
+			children = (
+				3F0E021F2CBECDF100D2A837 /* Preview Assets.xcassets */,
+			);
+			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		3F0E02242CBECDF100D2A837 /* Exposure */ = {
+			isa = PBXGroup;
+			children = (
+				3F0E02232CBECDF100D2A837 /* ExposureApp.swift */,
+				3F745F2D2CBF17CA00A737E6 /* UI */,
+				3F0E02202CBECDF100D2A837 /* Preview Content */,
+				3F0E02212CBECDF100D2A837 /* Assets.xcassets */,
+			);
+			path = Exposure;
+			sourceTree = "<group>";
+		};
+		3F745F2D2CBF17CA00A737E6 /* UI */ = {
+			isa = PBXGroup;
+			children = (
+				3F745F2E2CBF1ACB00A737E6 /* Core */,
+				3FCC712F2CBF6CE500859810 /* iOS */,
+			);
+			path = UI;
+			sourceTree = "<group>";
+		};
+		3F745F2E2CBF1ACB00A737E6 /* Core */ = {
+			isa = PBXGroup;
+			children = (
+				3F745F2F2CBF1B0300A737E6 /* iOSContentView.swift */,
+			);
+			path = Core;
+			sourceTree = "<group>";
+		};
+		3FCC712F2CBF6CE500859810 /* iOS */ = {
+			isa = PBXGroup;
+			children = (
+				3FCC71302CBF6CF800859810 /* iOSSettingsView.swift */,
+			);
+			path = iOS;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -60,11 +113,10 @@
 			);
 			dependencies = (
 			);
-			fileSystemSynchronizedGroups = (
-				3F0E02102CBECDE900D2A837 /* Exposure */,
-			);
 			name = Exposure;
 			packageProductDependencies = (
+				3FCC712B2CBF6C8000859810 /* ExposureEngine */,
+				3FCC712D2CBF6C8000859810 /* ExposureUI */,
 			);
 			productName = Exposure;
 			productReference = 3F0E020E2CBECDE900D2A837 /* Exposure.app */;
@@ -86,6 +138,7 @@
 				};
 			};
 			buildConfigurationList = 3F0E02092CBECDE900D2A837 /* Build configuration list for PBXProject "Exposure" */;
+			compatibilityVersion = "Xcode 15.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
@@ -94,7 +147,9 @@
 			);
 			mainGroup = 3F0E02052CBECDE900D2A837;
 			minimizedProjectReferenceProxies = 1;
-			preferredProjectObjectVersion = 77;
+			packageReferences = (
+				3FCC712A2CBF6C8000859810 /* XCLocalSwiftPackageReference "../ExposureEngine/ExposureEngine" */,
+			);
 			productRefGroup = 3F0E020F2CBECDE900D2A837 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -109,6 +164,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3F0E02252CBECDF100D2A837 /* Preview Assets.xcassets in Resources */,
+				3F0E02262CBECDF100D2A837 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -119,6 +176,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3FCC71312CBF6CF800859810 /* iOSSettingsView.swift in Sources */,
+				3F0E02282CBECDF100D2A837 /* ExposureApp.swift in Sources */,
+				3F745F302CBF1B0300A737E6 /* iOSContentView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -324,6 +384,24 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCLocalSwiftPackageReference section */
+		3FCC712A2CBF6C8000859810 /* XCLocalSwiftPackageReference "../ExposureEngine/ExposureEngine" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = ../ExposureEngine/ExposureEngine;
+		};
+/* End XCLocalSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		3FCC712B2CBF6C8000859810 /* ExposureEngine */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = ExposureEngine;
+		};
+		3FCC712D2CBF6C8000859810 /* ExposureUI */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = ExposureUI;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 3F0E02062CBECDE900D2A837 /* Project object */;
 }

@@ -6,12 +6,15 @@
 //
 
 import SwiftUI
+#if os(iOS)
+import UIKit
+#endif
 
 @main
 struct ExposureApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            iOSContentView()
         }
     }
 }
