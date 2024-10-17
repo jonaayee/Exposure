@@ -10,9 +10,9 @@
 		3F0E02252CBECDF100D2A837 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3F0E021F2CBECDF100D2A837 /* Preview Assets.xcassets */; };
 		3F0E02262CBECDF100D2A837 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3F0E02212CBECDF100D2A837 /* Assets.xcassets */; };
 		3F0E02282CBECDF100D2A837 /* ExposureApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F0E02232CBECDF100D2A837 /* ExposureApp.swift */; };
+		3F7225CD2CC0B22B0050A633 /* ErrorDatabase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F7225CC2CC0B22B0050A633 /* ErrorDatabase.swift */; };
+		3F7225CF2CC0B3010050A633 /* ErrorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F7225CE2CC0B3010050A633 /* ErrorView.swift */; };
 		3F745F302CBF1B0300A737E6 /* iOSContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F745F2F2CBF1B0300A737E6 /* iOSContentView.swift */; };
-		3FCC712C2CBF6C8000859810 /* ExposureEngine in Frameworks */ = {isa = PBXBuildFile; productRef = 3FCC712B2CBF6C8000859810 /* ExposureEngine */; };
-		3FCC712E2CBF6C8000859810 /* ExposureUI in Frameworks */ = {isa = PBXBuildFile; productRef = 3FCC712D2CBF6C8000859810 /* ExposureUI */; };
 		3FCC71312CBF6CF800859810 /* iOSSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FCC71302CBF6CF800859810 /* iOSSettingsView.swift */; };
 /* End PBXBuildFile section */
 
@@ -21,6 +21,8 @@
 		3F0E021F2CBECDF100D2A837 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		3F0E02212CBECDF100D2A837 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		3F0E02232CBECDF100D2A837 /* ExposureApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExposureApp.swift; sourceTree = "<group>"; };
+		3F7225CC2CC0B22B0050A633 /* ErrorDatabase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorDatabase.swift; sourceTree = "<group>"; };
+		3F7225CE2CC0B3010050A633 /* ErrorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorView.swift; sourceTree = "<group>"; };
 		3F745F2F2CBF1B0300A737E6 /* iOSContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iOSContentView.swift; sourceTree = "<group>"; };
 		3FCC71302CBF6CF800859810 /* iOSSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iOSSettingsView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -30,8 +32,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3FCC712C2CBF6C8000859810 /* ExposureEngine in Frameworks */,
-				3FCC712E2CBF6C8000859810 /* ExposureUI in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -66,6 +66,8 @@
 			isa = PBXGroup;
 			children = (
 				3F0E02232CBECDF100D2A837 /* ExposureApp.swift */,
+				3F7225CC2CC0B22B0050A633 /* ErrorDatabase.swift */,
+				3F7225CE2CC0B3010050A633 /* ErrorView.swift */,
 				3F745F2D2CBF17CA00A737E6 /* UI */,
 				3F0E02202CBECDF100D2A837 /* Preview Content */,
 				3F0E02212CBECDF100D2A837 /* Assets.xcassets */,
@@ -115,8 +117,6 @@
 			);
 			name = Exposure;
 			packageProductDependencies = (
-				3FCC712B2CBF6C8000859810 /* ExposureEngine */,
-				3FCC712D2CBF6C8000859810 /* ExposureUI */,
 			);
 			productName = Exposure;
 			productReference = 3F0E020E2CBECDE900D2A837 /* Exposure.app */;
@@ -148,7 +148,6 @@
 			mainGroup = 3F0E02052CBECDE900D2A837;
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
-				3FCC712A2CBF6C8000859810 /* XCLocalSwiftPackageReference "../ExposureEngine/ExposureEngine" */,
 			);
 			productRefGroup = 3F0E020F2CBECDE900D2A837 /* Products */;
 			projectDirPath = "";
@@ -176,7 +175,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3F7225CF2CC0B3010050A633 /* ErrorView.swift in Sources */,
 				3FCC71312CBF6CF800859810 /* iOSSettingsView.swift in Sources */,
+				3F7225CD2CC0B22B0050A633 /* ErrorDatabase.swift in Sources */,
 				3F0E02282CBECDF100D2A837 /* ExposureApp.swift in Sources */,
 				3F745F302CBF1B0300A737E6 /* iOSContentView.swift in Sources */,
 			);
@@ -315,11 +316,13 @@
 				DEVELOPMENT_TEAM = UFLQ47D2A9;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = Exposure;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.photography";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -327,9 +330,11 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.jonaayee.Exposure;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -344,11 +349,13 @@
 				DEVELOPMENT_TEAM = UFLQ47D2A9;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = Exposure;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.photography";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -356,9 +363,11 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.jonaayee.Exposure;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};
@@ -384,24 +393,6 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
-
-/* Begin XCLocalSwiftPackageReference section */
-		3FCC712A2CBF6C8000859810 /* XCLocalSwiftPackageReference "../ExposureEngine/ExposureEngine" */ = {
-			isa = XCLocalSwiftPackageReference;
-			relativePath = ../ExposureEngine/ExposureEngine;
-		};
-/* End XCLocalSwiftPackageReference section */
-
-/* Begin XCSwiftPackageProductDependency section */
-		3FCC712B2CBF6C8000859810 /* ExposureEngine */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = ExposureEngine;
-		};
-		3FCC712D2CBF6C8000859810 /* ExposureUI */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = ExposureUI;
-		};
-/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 3F0E02062CBECDE900D2A837 /* Project object */;
 }

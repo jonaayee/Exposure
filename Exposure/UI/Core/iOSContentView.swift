@@ -6,15 +6,30 @@
 //
 
 import SwiftUI
+import PhotosUI
 
 struct iOSContentView: View {
     
+    // for bottom controls
     var viewStates = ["projects", "all photos"]
     @State private var viewState = "projects"
+    // ----------------------------------------
+    // Photo Import Service
+    @State public var photoPickerShowing: Bool = false
+    @State private var pickerItems = [PhotosPickerItem]()
+    @State private var selectedImages = [Image]()
+    // ----------------------------------------
     
     var body: some View {
         NavigationStack {
             VStack {
+                ScrollView {
+                    ForEach(0..<selectedImages.count, id: \.self) { i in
+                        selectedImages[i]
+                            .resizable()
+                            .scaledToFit()
+                    }
+                }
             }
             .toolbar {
                 ToolbarItem(placement: .topBarLeading) {
@@ -27,7 +42,7 @@ struct iOSContentView: View {
                         Image(systemName: "gear.circle")
                     }
                 }
-                ToolbarItem(placement: .bottomBar) {
+                ToolbarItem(placement: .bottomBar) { // need to find a way to seperate them into two different items
                     HStack {
                         Picker("Projects view or all photos view.", selection: $viewState) {
                             ForEach(viewStates, id: \.self) { viewState in
@@ -37,20 +52,35 @@ struct iOSContentView: View {
                         .pickerStyle(.segmented)
                         .frame(minWidth: 0, maxWidth: 256)
                         .padding(.trailing, 64)
-                        Button("Share") {
-                            
+                        Button {
+                            print("idk, bring up the share sheet if you feel like it ig...")
+                        } label: {
+                            Image(systemName: "square.and.arrow.up")
                         }
-                        Button("Import") {
-                            
+                        PhotosPicker(selection: $pickerItems,
+                                     matching: .images
+                        ) {
+                            Image(systemName: "plus")
+                        }
+                        .onChange(of: pickerItems) {
+                            Task {
+                                selectedImages.removeAll()
+                                
+                                for item in pickerItems {
+                                    if let loadedImage = try? await item.loadTransferable(type: Image.self) {
+                                        selectedImages.append(loadedImage)
+                                    }
+                                }
+                            }
                         }
                     }
                 }
             }
         }
-        
     }
 }
 
 #Preview {
     iOSContentView()
 }
+
