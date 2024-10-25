@@ -17,28 +17,18 @@ struct iOSContentView: View {
     // Photo Import Service
     @State public var photoPickerShowing: Bool = false
     @State private var pickerItems = [PhotosPickerItem]()
-    @State private var selectedImages = [Image]()
+    @State public var selectedImages = [Image]()
     // ----------------------------------------
-    // Errors
-    enum possibleErrors: Error {
-        case someError
-    }
-    
-    static var wrapper: ErrorWrapper {
-        ErrorWrapper(error: possibleErrors.someError, code: nil)
-    }
     
     
     var body: some View {
         ZStack {
             NavigationStack {
                 VStack {
-                    ScrollView {
-                        ForEach(0..<selectedImages.count, id: \.self) { i in
-                            selectedImages[i]
-                                .resizable()
-                                .scaledToFit()
-                        }
+                    if viewState == "projects" {
+                        ProjectViews()
+                    } else {
+                        AllPhotosView(selectedImages: $selectedImages)
                     }
                 }
                 .toolbar {
@@ -52,26 +42,36 @@ struct iOSContentView: View {
                             Image(systemName: "gear.circle")
                         }
                     }
-                    ToolbarItem(placement: .bottomBar) { // need to find a way to seperate them into two different items
-                        HStack {
-                            Picker("Projects view or all photos view.", selection: $viewState) {
-                                ForEach(viewStates, id: \.self) { viewState in
-                                    Text(viewState)
-                                }
+                }
+                .overlay(alignment: .bottom) {
+                    HStack {
+                        Picker("Projects view or all photos view.", selection: $viewState) {
+                            ForEach(viewStates, id: \.self) { viewState in
+                                Text(viewState)
                             }
-                            .pickerStyle(.segmented)
-                            .frame(minWidth: 0, maxWidth: 256)
-                            .padding(.trailing, 64)
+                        }
+                        .pickerStyle(.segmented)
+                        .frame(width: 234)
+                        .padding(.leading, 16)
+                        Spacer()
+                        HStack {
                             Button {
                                 print("idk, bring up the share sheet if you feel like it ig...")
                             } label: {
                                 Image(systemName: "square.and.arrow.up")
+                                    .frame(width: 36, height: 36)
                             }
+                            .background(.ultraThickMaterial)
+                            .clipShape(Circle())
+                            .padding(.trailing, 2)
                             PhotosPicker(selection: $pickerItems,
                                          matching: .images
                             ) {
                                 Image(systemName: "plus")
+                                    .frame(width: 36, height: 36)
                             }
+                            .background(.ultraThickMaterial)
+                            .clipShape(Circle())
                             .onChange(of: pickerItems) {
                                 Task {
                                     selectedImages.removeAll()
@@ -84,14 +84,13 @@ struct iOSContentView: View {
                                 }
                             }
                         }
+                        .padding(.trailing, 16)
                     }
                 }
-            }
-            if selectedImages.isEmpty {
-                errorView()
-                    .ignoresSafeArea(.all)
+                .padding(.horizontal, 6)
             }
         }
+        
     }
 }
 
