@@ -53,6 +53,8 @@ struct iOSContentView: View {
                                 }
                             }
                             .pickerStyle(.segmented)
+                            .background(.ultraThickMaterial)
+                            .clipShape(.buttonBorder)
                             .padding(.trailing, 24)
                             Spacer()
                             Button {
@@ -86,11 +88,6 @@ struct iOSContentView: View {
                         .padding()
                     }
                 }
-                
-                /*.overlay(alignment: .bottom){ HStack(spacing: 4) {
-                    
-                }
-                .frame(maxWidth: .infinity, maxHeight: 128)*/
             }
         }
     }

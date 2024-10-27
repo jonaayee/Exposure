@@ -10,15 +10,30 @@ import SwiftUI
 struct iOSSettingsView: View {
     var body: some View {
         NavigationStack {
-            List {
-                NavigationLink("About", destination: iOSAboutAppView())
-                NavigationLink("Camera", destination: iOSMainCameraSettingsView())
-                NavigationLink("Appearance", destination: iOSAppearanceView())
-                NavigationLink("Agreements", destination: iOSPrivacyAndTermsView())
-                NavigationLink("help", destination: iOSHelpView())
-                    .foregroundStyle(.blue)
+            VStack {
+                ZStack {
+                    VStack {
+                        Rectangle()
+                            .padding()
+                            .frame(width: 240, height: 240)
+                            .foregroundStyle(.secondary)
+                            .cornerRadius(120)
+                            .shadow(radius: 10)
+                    }
+                    Image(systemName: "questionmark.square.fill")
+                        .font(.system(size: 64))
+                        .foregroundStyle(.primary).colorInvert()
+                }
+                List {
+                    NavigationLink("About", destination: iOSAboutAppView())
+                    NavigationLink("Camera", destination: iOSMainCameraSettingsView())
+                    NavigationLink("Appearance", destination: iOSAppearanceView())
+                    NavigationLink("Agreements", destination: iOSPrivacyAndTermsView())
+                    NavigationLink("help", destination: iOSHelpView())
+                        .foregroundStyle(.blue)
+                }
+                .navigationTitle("Settings").navigationBarTitleDisplayMode(.inline)
             }
-            .navigationTitle("Settings").navigationBarTitleDisplayMode(.inline)
         }
     }
 }
