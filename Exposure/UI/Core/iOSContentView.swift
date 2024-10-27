@@ -11,8 +11,8 @@ import PhotosUI
 struct iOSContentView: View {
     
     // for bottom controls
-    var viewStates = ["projects", "all photos"]
-    @State private var viewState = "projects"
+    var viewStates : Array = ["projects", "all photos"]
+    @State private var viewState: String = "projects"
     // ----------------------------------------
     // Photo Import Service
     @State public var photoPickerShowing: Bool = false
@@ -24,37 +24,37 @@ struct iOSContentView: View {
     var body: some View {
         ZStack {
             NavigationStack {
-                VStack {
-                    if viewState == "projects" {
-                        ProjectViews()
-                    } else {
-                        AllPhotosView(selectedImages: $selectedImages)
-                    }
-                }
-                .toolbar {
-                    ToolbarItem(placement: .topBarLeading) {
-                        Text("Exposure")
-                            .font(.largeTitle)
-                            .bold()
-                    }
-                    ToolbarItem(placement: .topBarTrailing){
-                        NavigationLink(destination: iOSSettingsView()) {
-                            Image(systemName: "gear.circle")
+                ZStack {
+                    VStack {
+                        if viewState == "projects" {
+                            ProjectViews()
+                        } else {
+                            AllPhotosView(selectedImages: $selectedImages)
                         }
                     }
-                }
-                .overlay(alignment: .bottom) {
-                    HStack {
-                        Picker("Projects view or all photos view.", selection: $viewState) {
-                            ForEach(viewStates, id: \.self) { viewState in
-                                Text(viewState)
+                    .toolbar {
+                        ToolbarItem(placement: .topBarLeading) {
+                            Text("Exposure")
+                                .font(.largeTitle)
+                                .bold()
+                        }
+                        ToolbarItem(placement: .topBarTrailing){
+                            NavigationLink(destination: iOSSettingsView()) {
+                                Image(systemName: "gear.circle")
                             }
                         }
-                        .pickerStyle(.segmented)
-                        .frame(width: 234)
-                        .padding(.leading, 16)
+                    }
+                    VStack {
                         Spacer()
                         HStack {
+                            Picker("Projects view or all photos view.", selection: $viewState) {
+                                ForEach(viewStates, id: \.self) { viewState in
+                                    Text(viewState)
+                                }
+                            }
+                            .pickerStyle(.segmented)
+                            .padding(.trailing, 24)
+                            Spacer()
                             Button {
                                 print("idk, bring up the share sheet if you feel like it ig...")
                             } label: {
@@ -63,7 +63,6 @@ struct iOSContentView: View {
                             }
                             .background(.ultraThickMaterial)
                             .clipShape(Circle())
-                            .padding(.trailing, 2)
                             PhotosPicker(selection: $pickerItems,
                                          matching: .images
                             ) {
@@ -84,17 +83,19 @@ struct iOSContentView: View {
                                 }
                             }
                         }
-                        .padding(.trailing, 16)
+                        .padding()
                     }
                 }
-                .padding(.horizontal, 6)
+                
+                /*.overlay(alignment: .bottom){ HStack(spacing: 4) {
+                    
+                }
+                .frame(maxWidth: .infinity, maxHeight: 128)*/
             }
         }
-        
     }
 }
 
 #Preview {
     iOSContentView()
 }
-
