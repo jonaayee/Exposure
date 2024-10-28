@@ -6,10 +6,6 @@
 //
 
 import SwiftUI
-/* #if os(iOS)
-import UIKit
-#endif */
-
 
 @main
 struct ExposureApp: App {
@@ -19,26 +15,3 @@ struct ExposureApp: App {
         }
     }
 }
-
-
-/*future code for multi-platform
- 
- @main
- struct ExposureApp: App {
- var body: some Scene {
- WindowGroup {
- #if os(iOS)
- if UIDevice.current.userInterfaceIdiom == .pad {
- iPadOSContentView()
- } else {
- iOSContentView()
- }
- #if os(macOS)
- macOSContentView()
- #if os(visionOS)
- visionOSContentView()
- #endif
- }
- }
- }
- */

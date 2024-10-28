@@ -12,10 +12,6 @@
 		3F0E02282CBECDF100D2A837 /* ExposureApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F0E02232CBECDF100D2A837 /* ExposureApp.swift */; };
 		3F1827ED2CCB4664008EE79E /* ProjectViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F1827EC2CCB4664008EE79E /* ProjectViews.swift */; };
 		3F1827F02CCB4675008EE79E /* AllPhotosView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F1827EF2CCB4675008EE79E /* AllPhotosView.swift */; };
-		3F1827F32CCE0E79008EE79E /* Image.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 3F1827F12CCE0E79008EE79E /* Image.xcdatamodeld */; };
-		3F1827F52CCE1226008EE79E /* DataController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F1827F42CCE1226008EE79E /* DataController.swift */; };
-		3F20D97C2CC7544100F97D96 /* ProjectModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F20D97B2CC7544100F97D96 /* ProjectModel.swift */; };
-		3F20D97E2CC7544A00F97D96 /* ImageModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F20D97D2CC7544A00F97D96 /* ImageModel.swift */; };
 		3F745F302CBF1B0300A737E6 /* iOSContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F745F2F2CBF1B0300A737E6 /* iOSContentView.swift */; };
 		3FCC71312CBF6CF800859810 /* iOSSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FCC71302CBF6CF800859810 /* iOSSettingsView.swift */; };
 /* End PBXBuildFile section */
@@ -27,10 +23,6 @@
 		3F0E02232CBECDF100D2A837 /* ExposureApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExposureApp.swift; sourceTree = "<group>"; };
 		3F1827EC2CCB4664008EE79E /* ProjectViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectViews.swift; sourceTree = "<group>"; };
 		3F1827EF2CCB4675008EE79E /* AllPhotosView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllPhotosView.swift; sourceTree = "<group>"; };
-		3F1827F22CCE0E79008EE79E /* Image.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Image.xcdatamodel; sourceTree = "<group>"; };
-		3F1827F42CCE1226008EE79E /* DataController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataController.swift; sourceTree = "<group>"; };
-		3F20D97B2CC7544100F97D96 /* ProjectModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectModel.swift; sourceTree = "<group>"; };
-		3F20D97D2CC7544A00F97D96 /* ImageModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageModel.swift; sourceTree = "<group>"; };
 		3F745F2F2CBF1B0300A737E6 /* iOSContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iOSContentView.swift; sourceTree = "<group>"; };
 		3FCC71302CBF6CF800859810 /* iOSSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iOSSettingsView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -95,10 +87,6 @@
 		3F7225D02CC12FB60050A633 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				3F20D97B2CC7544100F97D96 /* ProjectModel.swift */,
-				3F20D97D2CC7544A00F97D96 /* ImageModel.swift */,
-				3F1827F42CCE1226008EE79E /* DataController.swift */,
-				3F1827F12CCE0E79008EE79E /* Image.xcdatamodeld */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -212,12 +200,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				3FCC71312CBF6CF800859810 /* iOSSettingsView.swift in Sources */,
-				3F20D97E2CC7544A00F97D96 /* ImageModel.swift in Sources */,
 				3F1827ED2CCB4664008EE79E /* ProjectViews.swift in Sources */,
 				3F1827F02CCB4675008EE79E /* AllPhotosView.swift in Sources */,
-				3F1827F52CCE1226008EE79E /* DataController.swift in Sources */,
-				3F20D97C2CC7544100F97D96 /* ProjectModel.swift in Sources */,
-				3F1827F32CCE0E79008EE79E /* Image.xcdatamodeld in Sources */,
 				3F0E02282CBECDF100D2A837 /* ExposureApp.swift in Sources */,
 				3F745F302CBF1B0300A737E6 /* iOSContentView.swift in Sources */,
 			);
@@ -433,19 +417,6 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
-
-/* Begin XCVersionGroup section */
-		3F1827F12CCE0E79008EE79E /* Image.xcdatamodeld */ = {
-			isa = XCVersionGroup;
-			children = (
-				3F1827F22CCE0E79008EE79E /* Image.xcdatamodel */,
-			);
-			currentVersion = 3F1827F22CCE0E79008EE79E /* Image.xcdatamodel */;
-			path = Image.xcdatamodeld;
-			sourceTree = "<group>";
-			versionGroupType = wrapper.xcdatamodel;
-		};
-/* End XCVersionGroup section */
 	};
 	rootObject = 3F0E02062CBECDE900D2A837 /* Project object */;
 }
