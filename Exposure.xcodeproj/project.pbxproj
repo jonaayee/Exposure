@@ -11,6 +11,8 @@
 		3F0E02262CBECDF100D2A837 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3F0E02212CBECDF100D2A837 /* Assets.xcassets */; };
 		3F0E02282CBECDF100D2A837 /* ExposureApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F0E02232CBECDF100D2A837 /* ExposureApp.swift */; };
 		3F2ECFB12CD03646006F5FC2 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F2ECFB02CD03646006F5FC2 /* ContentView.swift */; };
+		3FE6173B2CD08F8600F3480B /* FrameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FE6173A2CD08F8600F3480B /* FrameView.swift */; };
+		3FE6173D2CD0917E00F3480B /* FrameHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FE6173C2CD0917E00F3480B /* FrameHandler.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -19,6 +21,9 @@
 		3F0E02212CBECDF100D2A837 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		3F0E02232CBECDF100D2A837 /* ExposureApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExposureApp.swift; sourceTree = "<group>"; };
 		3F2ECFB02CD03646006F5FC2 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		3FE6173A2CD08F8600F3480B /* FrameView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FrameView.swift; sourceTree = "<group>"; };
+		3FE6173C2CD0917E00F3480B /* FrameHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FrameHandler.swift; sourceTree = "<group>"; };
+		3FE617402CD0935900F3480B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -59,12 +64,23 @@
 		3F0E02242CBECDF100D2A837 /* Exposure */ = {
 			isa = PBXGroup;
 			children = (
+				3FE617402CD0935900F3480B /* Info.plist */,
 				3F0E02232CBECDF100D2A837 /* ExposureApp.swift */,
 				3F2ECFB02CD03646006F5FC2 /* ContentView.swift */,
+				3FE617392CD08F7A00F3480B /* Camera Code */,
 				3F0E02202CBECDF100D2A837 /* Preview Content */,
 				3F0E02212CBECDF100D2A837 /* Assets.xcassets */,
 			);
 			path = Exposure;
+			sourceTree = "<group>";
+		};
+		3FE617392CD08F7A00F3480B /* Camera Code */ = {
+			isa = PBXGroup;
+			children = (
+				3FE6173A2CD08F8600F3480B /* FrameView.swift */,
+				3FE6173C2CD0917E00F3480B /* FrameHandler.swift */,
+			);
+			path = "Camera Code";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -142,7 +158,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3FE6173B2CD08F8600F3480B /* FrameView.swift in Sources */,
 				3F2ECFB12CD03646006F5FC2 /* ContentView.swift in Sources */,
+				3FE6173D2CD0917E00F3480B /* FrameHandler.swift in Sources */,
 				3F0E02282CBECDF100D2A837 /* ExposureApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -280,8 +298,10 @@
 				DEVELOPMENT_TEAM = UFLQ47D2A9;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Exposure/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = Exposure;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.photography";
+				INFOPLIST_KEY_NSCameraUsageDescription = "This app requires to use the camera in order for photo output. Your data is never shared with us.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -313,8 +333,10 @@
 				DEVELOPMENT_TEAM = UFLQ47D2A9;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Exposure/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = Exposure;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.photography";
+				INFOPLIST_KEY_NSCameraUsageDescription = "This app requires to use the camera in order for photo output. Your data is never shared with us.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
