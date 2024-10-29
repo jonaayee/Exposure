@@ -11,7 +11,7 @@ import SwiftUI
 struct ExposureApp: App {
     var body: some Scene {
         WindowGroup {
-            iOSContentView()
+            ContentView()
         }
     }
 }
