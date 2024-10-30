@@ -1,3 +1,10 @@
+//
+//  ContentView.swift
+//  Exposure
+//
+//  Created by Jonathan Amburgy on 10/28/24.
+//
+
 import AVFoundation
 import UIKit
 import CoreImage
@@ -11,25 +18,34 @@ enum selectedAspectRatio {
 }
 
 class FrameHandler: NSObject, ObservableObject {
-    @Published var frame: CGImage?  // Published frame to update the UI
-    private var permissionGranted = true  // Stores camera permission status
+    @Published var frame: CGImage?
+    private var permissionGranted = true  // permission status
     private let captureSession = AVCaptureSession()  // AVCaptureSession instance
-    private let sessionQueue = DispatchQueue(label: "sessionQueue")  // Queue for configuring the session
-    private let context = CIContext()  // CIContext for converting CIImage to CGImage
+    private let sessionQueue = DispatchQueue(label: "sessionQueue")
+    private let context = CIContext()
     
-    private var videoOutput = AVCaptureVideoDataOutput()  // Output for video data
-    private var currentAspectRatio: selectedAspectRatio = .aspect4to3 {  // Default aspect ratio
-        didSet { configureAspectRatio() }  // Configure session when aspect ratio changes
+    private var videoOutput = AVCaptureVideoDataOutput()  // Output
+    private var currentAspectRatio: selectedAspectRatio = .aspect4to3 {
+        didSet { configureAspectRatio() }
     }
 
     override init() {
         super.init()
-        self.checkPermission()  // Check camera permissions
+        self.checkPermission() 
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(appDidEnterBackground), name: UIApplication.didEnterBackgroundNotification, object: nil)
+               NotificationCenter.default.addObserver(self, selector: #selector(appWillEnterForeground), name: UIApplication.willEnterForegroundNotification, object: nil)
+        
+        
         sessionQueue.async { [unowned self] in
-            self.setupCaptureSession()  // Setup capture session in background
-            self.captureSession.startRunning()  // Start capturing
+            self.setupCaptureSession()  // sets up capture session
+            self.captureSession.startRunning()
         }
     }
+    
+    deinit { // removes process
+            NotificationCenter.default.removeObserver(self)
+        }
 
     // Check for camera permission and request if not determined
     func checkPermission() {
@@ -43,73 +59,81 @@ class FrameHandler: NSObject, ObservableObject {
         }
     }
 
-    // Request permission for camera access
     func requestPermission() {
         AVCaptureDevice.requestAccess(for: .video) { [unowned self] granted in
-            self.permissionGranted = granted  // Set permission status
+            self.permissionGranted = granted
         }
     }
 
-    // Setup the capture session, configure input/output, and add to session
     func setupCaptureSession() {
-        guard permissionGranted else { return }  // Ensure permission is granted
+        guard permissionGranted else { return }
         
         guard let videoDevice = AVCaptureDevice.default(.builtInDualWideCamera, for: .video, position: .back),
               let videoDeviceInput = try? AVCaptureDeviceInput(device: videoDevice),
               captureSession.canAddInput(videoDeviceInput) else { return }
         
-        captureSession.addInput(videoDeviceInput)  // Add camera input to session
-        videoOutput.setSampleBufferDelegate(self, queue: DispatchQueue(label: "sampleBufferQueue"))  // Set delegate for video output
-        captureSession.addOutput(videoOutput)  // Add video output to session
+        captureSession.addInput(videoDeviceInput)  // camera input
+        videoOutput.setSampleBufferDelegate(self, queue: DispatchQueue(label: "sampleBufferQueue"))
+        captureSession.addOutput(videoOutput)  // camera output
         
-        configureAspectRatio()  // Set the initial aspect ratio
+        configureAspectRatio()
     }
     
-    // Configure session preset based on the selected aspect ratio
     private func configureAspectRatio() {
         sessionQueue.async { [unowned self] in
-            self.captureSession.beginConfiguration()  // Start configuration
+            self.captureSession.beginConfiguration()
             
             switch self.currentAspectRatio {
             case .aspect4to3:
-                self.captureSession.sessionPreset = .photo  // 4:3 aspect ratio
+                self.captureSession.sessionPreset = .photo // figure out what photo means
             case .aspect16to9:
-                self.captureSession.sessionPreset = .hd4K3840x2160  // 16:9 aspect ratio
+                self.captureSession.sessionPreset = .hd4K3840x2160 // see if there is a possiblilty for a higher resolution
             case .aspect1to1:
-                self.captureSession.sessionPreset = .cif352x288
+                self.captureSession.sessionPreset = .cif352x288 // find a high resolution square
             case .fullscreen:
-                self.captureSession.sessionPreset = .high  // Fullscreen aspect ratio
+                self.captureSession.sessionPreset = .high // figure out what high means
             }
             
-            self.captureSession.commitConfiguration()  // Commit configuration
+            self.captureSession.commitConfiguration()
         }
     }
 
-    // Public method to set the aspect ratio
+    // to change the aspect ratio
     func setAspectRatio(_ aspectRatio: selectedAspectRatio) {
-        self.currentAspectRatio = aspectRatio  // Update current aspect ratio
+        self.currentAspectRatio = aspectRatio
     }
     
-    // Capture the current frame and save to Photos library
     func capturePhoto() {
-        guard let cgImage = frame else { return }  // Ensure there's a valid frame
+        guard let cgImage = frame else { return }
         
         PHPhotoLibrary.shared().performChanges({
-            PHAssetChangeRequest.creationRequestForAsset(from: UIImage(cgImage: cgImage))  // Save image to Photos
+            PHAssetChangeRequest.creationRequestForAsset(from: UIImage(cgImage: cgImage))  // saving image to apple photos/icloud
         }, completionHandler: { success, error in
             if let error = error {
-                print("Error saving photo: \(error.localizedDescription)")  // Print error if saving fails
+                print("Error saving photo: \(error.localizedDescription)")  // failed
             } else if success {
-                print("Photo saved successfully")  // Confirm success
+                print("Photo saved successfully")  // success
             }
         })
     }
+    // MARK: - Background/Foreground Handling
+       @objc private func appDidEnterBackground() {
+           sessionQueue.async { [weak self] in
+               self?.captureSession.stopRunning()
+           }
+       }
+
+       @objc private func appWillEnterForeground() {
+           sessionQueue.async { [weak self] in
+               self?.captureSession.startRunning()
+           }
+       }
 }
 
 // Extension to handle sample buffer processing for video output
 extension FrameHandler: AVCaptureVideoDataOutputSampleBufferDelegate {
     func captureOutput(_ output: AVCaptureOutput, didOutput sampleBuffer: CMSampleBuffer, from connection: AVCaptureConnection) {
-        guard let cgImage = imageFromSampleBuffer(sampleBuffer: sampleBuffer) else { return }  // Convert sample buffer to CGImage
+        guard let cgImage = imageFromSampleBuffer(sampleBuffer: sampleBuffer) else { return }  // Convertion sample buffer to CGImage
         
         DispatchQueue.main.async { [unowned self] in
             self.frame = cgImage  // Update the frame on the main queue
@@ -120,6 +144,6 @@ extension FrameHandler: AVCaptureVideoDataOutputSampleBufferDelegate {
     private func imageFromSampleBuffer(sampleBuffer: CMSampleBuffer) -> CGImage? {
         guard let imageBuffer = CMSampleBufferGetImageBuffer(sampleBuffer) else { return nil }
         let ciImage = CIImage(cvPixelBuffer: imageBuffer)
-        return context.createCGImage(ciImage, from: ciImage.extent)  // Convert CIImage to CGImage
+        return context.createCGImage(ciImage, from: ciImage.extent)
     }
 }
