@@ -12,7 +12,7 @@ struct ContentView: View {
     @StateObject private var model = FrameHandler() // Allows use of the class in this struct
     
     var body: some View {
-        FrameView(image: model.frame)
+        FrameView()
             .ignoresSafeArea()
     }
 }

@@ -1,82 +1,125 @@
 import AVFoundation
+import UIKit
 import CoreImage
+import Photos
+
+enum selectedAspectRatio {
+    case aspect4to3
+    case aspect16to9
+    case aspect1to1
+    case fullscreen
+}
 
 class FrameHandler: NSObject, ObservableObject {
-    @Published var frame: CGImage?
-    private var permissionGranted = true
-    private let captureSession = AVCaptureSession()
-    private let sessionQueue = DispatchQueue(label: "sessionQueue")
-    private let context = CIContext()
-
+    @Published var frame: CGImage?  // Published frame to update the UI
+    private var permissionGranted = true  // Stores camera permission status
+    private let captureSession = AVCaptureSession()  // AVCaptureSession instance
+    private let sessionQueue = DispatchQueue(label: "sessionQueue")  // Queue for configuring the session
+    private let context = CIContext()  // CIContext for converting CIImage to CGImage
     
+    private var videoOutput = AVCaptureVideoDataOutput()  // Output for video data
+    private var currentAspectRatio: selectedAspectRatio = .aspect4to3 {  // Default aspect ratio
+        didSet { configureAspectRatio() }  // Configure session when aspect ratio changes
+    }
+
     override init() {
         super.init()
-        self.checkPermission()
+        self.checkPermission()  // Check camera permissions
         sessionQueue.async { [unowned self] in
-            self.setupCaptureSession()
-            self.captureSession.startRunning()
+            self.setupCaptureSession()  // Setup capture session in background
+            self.captureSession.startRunning()  // Start capturing
         }
     }
-    
-    func checkPermission() { // Checks for permission from user
+
+    // Check for camera permission and request if not determined
+    func checkPermission() {
         switch AVCaptureDevice.authorizationStatus(for: .video) {
-            case .authorized: // The user has previously granted access to the camera.
-                self.permissionGranted = true
-                
-            case .notDetermined: // The user has not yet been asked for camera access.
-                self.requestPermission()
-                
-        // Combine the two other cases into the default case
+        case .authorized:
+            self.permissionGranted = true  // Permission granted
+        case .notDetermined:
+            self.requestPermission()  // Request permission if not determined
         default:
-            self.permissionGranted = false
+            self.permissionGranted = false  // Permission denied or restricted
         }
     }
-    
+
+    // Request permission for camera access
     func requestPermission() {
-        // Strong reference not a problem here but might become one in the future.
         AVCaptureDevice.requestAccess(for: .video) { [unowned self] granted in
-            self.permissionGranted = granted
+            self.permissionGranted = granted  // Set permission status
         }
     }
-    
+
+    // Setup the capture session, configure input/output, and add to session
     func setupCaptureSession() {
-        let videoOutput = AVCaptureVideoDataOutput()
+        guard permissionGranted else { return }  // Ensure permission is granted
         
-        guard permissionGranted else { return }
-        guard let videoDevice = AVCaptureDevice.default(.builtInDualWideCamera,for: .video, position: .back) else { return }
-        guard let videoDeviceInput = try? AVCaptureDeviceInput(device: videoDevice) else { return }
-        guard captureSession.canAddInput(videoDeviceInput) else { return }
-        captureSession.addInput(videoDeviceInput)
+        guard let videoDevice = AVCaptureDevice.default(.builtInDualWideCamera, for: .video, position: .back),
+              let videoDeviceInput = try? AVCaptureDeviceInput(device: videoDevice),
+              captureSession.canAddInput(videoDeviceInput) else { return }
         
-        videoOutput.setSampleBufferDelegate(self, queue: DispatchQueue(label: "sampleBufferQueue"))
-        captureSession.addOutput(videoOutput)
+        captureSession.addInput(videoDeviceInput)  // Add camera input to session
+        videoOutput.setSampleBufferDelegate(self, queue: DispatchQueue(label: "sampleBufferQueue"))  // Set delegate for video output
+        captureSession.addOutput(videoOutput)  // Add video output to session
         
-        /* Legacy code for iOS 16
-         videoOutput.connection(with: .video)?.videoOrientation = .portrait
-         */
-        if let connection = videoOutput.connection(with: .video) {
-                connection.videoRotationAngle = 90 // Set to 90 degrees for portrait
+        configureAspectRatio()  // Set the initial aspect ratio
+    }
+    
+    // Configure session preset based on the selected aspect ratio
+    private func configureAspectRatio() {
+        sessionQueue.async { [unowned self] in
+            self.captureSession.beginConfiguration()  // Start configuration
+            
+            switch self.currentAspectRatio {
+            case .aspect4to3:
+                self.captureSession.sessionPreset = .photo  // 4:3 aspect ratio
+            case .aspect16to9:
+                self.captureSession.sessionPreset = .hd4K3840x2160  // 16:9 aspect ratio
+            case .aspect1to1:
+                self.captureSession.sessionPreset = .cif352x288
+            case .fullscreen:
+                self.captureSession.sessionPreset = .high  // Fullscreen aspect ratio
             }
+            
+            self.captureSession.commitConfiguration()  // Commit configuration
+        }
+    }
+
+    // Public method to set the aspect ratio
+    func setAspectRatio(_ aspectRatio: selectedAspectRatio) {
+        self.currentAspectRatio = aspectRatio  // Update current aspect ratio
+    }
+    
+    // Capture the current frame and save to Photos library
+    func capturePhoto() {
+        guard let cgImage = frame else { return }  // Ensure there's a valid frame
+        
+        PHPhotoLibrary.shared().performChanges({
+            PHAssetChangeRequest.creationRequestForAsset(from: UIImage(cgImage: cgImage))  // Save image to Photos
+        }, completionHandler: { success, error in
+            if let error = error {
+                print("Error saving photo: \(error.localizedDescription)")  // Print error if saving fails
+            } else if success {
+                print("Photo saved successfully")  // Confirm success
+            }
+        })
     }
 }
 
-
+// Extension to handle sample buffer processing for video output
 extension FrameHandler: AVCaptureVideoDataOutputSampleBufferDelegate {
     func captureOutput(_ output: AVCaptureOutput, didOutput sampleBuffer: CMSampleBuffer, from connection: AVCaptureConnection) {
-        guard let cgImage = imageFromSampleBuffer(sampleBuffer: sampleBuffer) else { return }
+        guard let cgImage = imageFromSampleBuffer(sampleBuffer: sampleBuffer) else { return }  // Convert sample buffer to CGImage
         
-        // All UI updates should be/ must be performed on the main queue.
         DispatchQueue.main.async { [unowned self] in
-            self.frame = cgImage
+            self.frame = cgImage  // Update the frame on the main queue
         }
     }
-    
+
+    // Helper method to convert CMSampleBuffer to CGImage
     private func imageFromSampleBuffer(sampleBuffer: CMSampleBuffer) -> CGImage? {
         guard let imageBuffer = CMSampleBufferGetImageBuffer(sampleBuffer) else { return nil }
         let ciImage = CIImage(cvPixelBuffer: imageBuffer)
-        guard let cgImage = context.createCGImage(ciImage, from: ciImage.extent) else { return nil }
-        
-        return cgImage
+        return context.createCGImage(ciImage, from: ciImage.extent)  // Convert CIImage to CGImage
     }
-    
 }

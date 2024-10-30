@@ -302,6 +302,7 @@
 				INFOPLIST_KEY_CFBundleDisplayName = Exposure;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.photography";
 				INFOPLIST_KEY_NSCameraUsageDescription = "This app requires to use the camera in order for photo output. Your data is never shared with us.";
+				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "This app requires the ability to save photos to your library. If not then why are you taking them?";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -337,6 +338,7 @@
 				INFOPLIST_KEY_CFBundleDisplayName = Exposure;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.photography";
 				INFOPLIST_KEY_NSCameraUsageDescription = "This app requires to use the camera in order for photo output. Your data is never shared with us.";
+				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "This app requires the ability to save photos to your library. If not then why are you taking them?";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
