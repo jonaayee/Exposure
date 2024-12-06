@@ -16,38 +16,40 @@ struct FrameView: View {
     @State private var SelectedAspectRatio: selectedAspectRatio = .aspect4to3 // The current aspect ratio
     
     var body: some View {
-        ZStack {
-            if let image = image { // Displays camera feed
-                Image(image, scale: 1.0, orientation: .up, label: label)
-                    .resizable()
-                    .scaledToFit()
-            } else {
-                Text("No camera feed available...")
-            }
-            GeometryReader { geometry in
-                Rectangle()
-                    .stroke(Color.blue, lineWidth: 3) // Customize frame color and width
-                    .aspectRatio(aspectRatio(for: SelectedAspectRatio), contentMode: .fit)
-                    .frame(width: geometry.size.width, height: geometry.size.height)
-                    .clipped()
-            }
-            VStack {
-                Spacer()
-                HStack {
-                    Picker("Aspect Ratio", selection: $SelectedAspectRatio) {
-                        Text("4:3").tag(selectedAspectRatio.aspect4to3)
-                        Text("16:9").tag(selectedAspectRatio.aspect16to9)
-                        Text("1:1").tag(selectedAspectRatio.aspect1to1)
-                        Text("Fullscreen").tag(selectedAspectRatio.fullscreen)
-                    }
-                    .pickerStyle(.menu)  // Optional style, for horizontal segments
-                    .onChange(of: SelectedAspectRatio) { newAspectRatio in // ios 16 and before
-                        Logger.viewCycle.warning("onChange modifier called, not supported on iOS 17 and later.")
-                        frameHandler.setAspectRatio(newAspectRatio)  // Update frameHandler's aspect ratio
-                    }
-                    // capture function (basic)
-                    Button("Capture") {
-                        frameHandler.capturePhoto()
+        NavigationStack {
+            ZStack {
+                if let image = image { // Displays camera feed
+                    Image(image, scale: 1.0, orientation: .up, label: label)
+                        .resizable()
+                        .scaledToFit()
+                } else {
+                    Text("No camera feed available...")
+                }
+                GeometryReader { geometry in
+                    Rectangle()
+                        .stroke(Color.blue, lineWidth: 3) // Customize frame color and width
+                        .aspectRatio(aspectRatio(for: SelectedAspectRatio), contentMode: .fit)
+                        .frame(width: geometry.size.width, height: geometry.size.height)
+                        .clipped()
+                }
+                VStack {
+                    Spacer()
+                    HStack {
+                        Picker("Aspect Ratio", selection: $SelectedAspectRatio) {
+                            Text("4:3").tag(selectedAspectRatio.aspect4to3)
+                            Text("16:9").tag(selectedAspectRatio.aspect16to9)
+                            Text("1:1").tag(selectedAspectRatio.aspect1to1)
+                            Text("Fullscreen").tag(selectedAspectRatio.fullscreen)
+                        }
+                        .pickerStyle(.menu)  // Optional style, for horizontal segments
+                        .onChange(of: SelectedAspectRatio) { newAspectRatio in // ios 16 and before
+                            Logger.viewCycle.warning("onChange modifier called, not supported on iOS 17 and later.")
+                            frameHandler.setAspectRatio(newAspectRatio)  // Update frameHandler's aspect ratio
+                        }
+                        // capture function (basic)
+                        Button("Capture") {
+                            frameHandler.capturePhoto()
+                        }
                     }
                 }
             }
