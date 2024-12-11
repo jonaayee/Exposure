@@ -11,33 +11,44 @@ import AVFoundation
 import OSLog
 
 struct FrameView: View {
+    
+    enum CameraType {
+        case main, ultraWide, telephoto, front
+    }
+    
     // MARK: - Observed Objects
     @ObservedObject var frameHandler: FrameHandler
-
+    
     // MARK: - Initializer
     init(frameHandler: FrameHandler = FrameView.createFrameHandler()) {
         self.frameHandler = frameHandler
     }
-
+    
     // Static factory method to create FrameHandler on the main actor
-    @MainActor private static func createFrameHandler() -> FrameHandler {
+    private static func createFrameHandler() -> FrameHandler {
         return FrameHandler()
     }
-
+    
     // MARK: - State Properties
     var image: CGImage? { frameHandler.frame }
     let label = Text("Viewing Frame")
+    @State private var selectedCamera: CameraType = .main
     @State private var selectedAspectRatio: SelectedAspectRatio = .aspect4to3
     @State private var selectedFormat: CaptureFormat = .jpg
     @State private var selectedFlashMode: AVCaptureDevice.FlashMode = .off
     @State private var selectedMegapixels: Int = 12
     @State private var useTelephotoCamera: Bool = false
     @State private var captureDelay: Double = 0.0
-
+    
+    var computedFinalRatio: CGFloat? {
+        let rawRatio = frameHandler.calculatedAspectRatio(for: selectedAspectRatio)
+        return (rawRatio == 0.0) ? nil : rawRatio
+    }
+    
     // MARK: - Body
     var body: some View {
         NavigationStack {
-            ZStack {
+            VStack {
                 // Camera Feed
                 if let frameImage = image {
                     Image(frameImage, scale: 1.0, orientation: .up, label: label)
@@ -48,12 +59,12 @@ struct FrameView: View {
                     Text("No camera feed available...")
                         .foregroundColor(.gray)
                 }
-
+                
                 // Aspect Ratio Overlay
                 GeometryReader { geometry in
-                    let ratio = calculatedAspectRatio(for: selectedAspectRatio)
-                    let finalRatio: CGFloat? = (ratio == 0.0) ? nil : ratio
-
+                    let rawRatio: CGFloat = frameHandler.calculatedAspectRatio(for: selectedAspectRatio)
+                    let finalRatio: CGFloat? = (rawRatio == 0.0) ? nil : rawRatio
+                    
                     Rectangle()
                         .stroke(Color.blue, lineWidth: 3)
                         .aspectRatio(finalRatio, contentMode: .fit)
@@ -61,11 +72,9 @@ struct FrameView: View {
                         .clipped()
                 }
                 .padding(.horizontal, 10)
-
-                // Controls Overlay
                 VStack {
                     Spacer()
-
+                    
                     // Aspect Ratio Picker, Capture Button
                     HStack {
                         Picker("Aspect Ratio", selection: $selectedAspectRatio) {
@@ -76,10 +85,10 @@ struct FrameView: View {
                         }
                         .pickerStyle(.menu)
                         .onChange(of: selectedAspectRatio) { newAspectRatio in
-                            Logger.viewCycle.debug("Aspect ratio changed to \(newAspectRatio)")
+                            Logger.viewCycle.debug("Aspect ratio changed.")
                             frameHandler.setAspectRatio(newAspectRatio)
                         }
-
+                        
                         Button("Capture") {
                             if captureDelay > 0 {
                                 frameHandler.capturePhoto(after: captureDelay)
@@ -89,7 +98,7 @@ struct FrameView: View {
                         }
                     }
                     .padding(.bottom, 10)
-
+                    
                     // Additional Controls
                     HStack {
                         // Capture Format Picker
@@ -102,9 +111,8 @@ struct FrameView: View {
                         .pickerStyle(.menu)
                         .onChange(of: selectedFormat) { newFormat in
                             frameHandler.captureFormat = newFormat
-                            Logger.viewCycle.debug("Capture format changed to \(newFormat)")
                         }
-
+                        
                         // Flash Mode Picker
                         Picker("Flash", selection: $selectedFlashMode) {
                             Text("Off").tag(AVCaptureDevice.FlashMode.off)
@@ -114,9 +122,8 @@ struct FrameView: View {
                         .pickerStyle(.menu)
                         .onChange(of: selectedFlashMode) { newMode in
                             frameHandler.flashMode = newMode
-                            Logger.viewCycle.debug("Flash mode changed to \(newMode.rawValue)")
                         }
-
+                        
                         // Megapixels Picker
                         Picker("MP", selection: $selectedMegapixels) {
                             Text("12MP").tag(12)
@@ -126,30 +133,31 @@ struct FrameView: View {
                         .pickerStyle(.menu)
                         .onChange(of: selectedMegapixels) { newMP in
                             frameHandler.setMegapixels(newMP)
-                            Logger.viewCycle.debug("Megapixels changed to \(newMP)")
                         }
                     }
                     .padding(.bottom, 10)
-
+                    
                     // Camera Selection and Timer
                     HStack {
                         // Camera Selection
-                        Button("Use Telephoto") {
-                            useTelephotoCamera.toggle()
-                            if useTelephotoCamera {
-                                frameHandler.selectTelephotoCamera()
-                                Logger.viewCycle.debug("Switched to telephoto camera.")
-                            } else {
+                        Picker("Select Camera", selection: $selectedCamera) {
+                            Text("Main").tag(CameraType.main)
+                            Text("Ultra-Wide").tag(CameraType.ultraWide)
+                            Text("Telephoto").tag(CameraType.telephoto)
+                            Text("Front").tag(CameraType.front)
+                        }
+                        .onChange(of: selectedCamera) { cameraType in
+                            switch cameraType {
+                            case .main:
                                 frameHandler.selectCamera(type: .builtInWideAngleCamera, position: .back)
-                                Logger.viewCycle.debug("Switched to back wide-angle camera.")
+                            case .ultraWide:
+                                frameHandler.selectCamera(type: .builtInUltraWideCamera, position: .back)
+                            case .telephoto:
+                                frameHandler.selectTelephotoCamera()
+                            case .front:
+                                frameHandler.selectFrontCamera()
                             }
                         }
-
-                        Button("Front Camera") {
-                            frameHandler.selectFrontCamera()
-                            Logger.viewCycle.debug("Switched to front camera.")
-                        }
-
                         // Timer Slider
                         VStack {
                             Text("Capture Delay: \(Int(captureDelay))s")
@@ -160,18 +168,9 @@ struct FrameView: View {
                     .padding(.bottom, 20)
                 }
             }
-            .navigationTitle("Camera View")
-            .navigationBarTitleDisplayMode(.inline)
-        }
-    }
-
-    // MARK: - Aspect Ratio Helper
-    private func calculatedAspectRatio(for ratio: SelectedAspectRatio) -> CGFloat {
-        switch ratio {
-        case .aspect4to3: return 3.0 / 4.0
-        case .aspect16to9: return 9.0 / 16.0
-        case .aspect1to1: return 1.0
-        case .fullscreen: return 0.0
+            .onAppear() {
+                frameHandler.printSupportedPresets()
+            }
         }
     }
 }

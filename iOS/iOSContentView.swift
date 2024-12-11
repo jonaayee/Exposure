@@ -27,9 +27,7 @@ struct iOSContentView: View {
                             .font(.system(size: 64))
                     }
                     .padding()
-                    
-                    
-                    .padding()
+                    //#error("App is not responive to taps, may be caused by FrameView.swift")
                     Text("Something interesting is coming...")
                         .font(.system(size: 20))
                         .bold()
